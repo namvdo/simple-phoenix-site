@@ -14,7 +14,7 @@ defmodule Discuss.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: DiscussWeb.PubSub},
       # Start the Endpoint (http/https)
-      DiscussWeb.Endpoint
+      DiscussWeb.Endpoint,
       # Start a worker by calling: Discuss.Worker.start_link(arg)
       # {Discuss.Worker, arg}
     ]

@@ -1,12 +1,12 @@
 defmodule DiscussWeb.Router do
   use DiscussWeb, :router
-
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug DisscussWeb.Plugs.SetUser
   end
 
   pipeline :api do
@@ -18,6 +18,7 @@ defmodule DiscussWeb.Router do
     get "/", TopicController, :index
     get "/topics/new", TopicController, :new
     get "/topics/:id/edit", TopicController, :edit
+    get "/signout", AuthController, :signout
     put "/topics/:id", TopicController, :update
     post "/topic", TopicController, :create
     delete "/topic/:id", TopicController, :delete
