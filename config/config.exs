@@ -31,7 +31,7 @@ config :ueberauth, Ueberauth,
   ]
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,
   client_id: "f515c54d6d8b2001e076",
-  client_secret: "2ff264da25afb8ef1aa8a2d86781df897de59df2"
+  client_secret: ""
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
