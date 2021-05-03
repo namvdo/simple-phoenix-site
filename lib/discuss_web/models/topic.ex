@@ -5,6 +5,7 @@ defmodule DiscussWeb.Topic do
 
   schema "topic" do
     field :title, :string
+    belongs_to :user, DiscussWeb.Topic
   end
 
   def changeset(struct, params \\ %{}) do
