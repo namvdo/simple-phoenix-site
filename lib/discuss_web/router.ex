@@ -20,6 +20,7 @@ defmodule DiscussWeb.Router do
     get "/topics/:id/edit", TopicController, :edit
     get "/signout", AuthController, :signout
     put "/topics/:id", TopicController, :update
+    get "/topics/:id", TopicController, :show
     post "/topic", TopicController, :create
     delete "/topic/:id", TopicController, :delete
   end

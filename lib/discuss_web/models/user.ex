@@ -7,6 +7,7 @@ defmodule DiscussWeb.User do
     field :token, :string
     field :provider, :string
     has_many(:topic, DiscussWeb.Topic)
+    has_many(:comments, DiscussWeb.Comment)
     timestamps()
   end
 

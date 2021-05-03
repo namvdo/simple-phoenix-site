@@ -16,13 +16,14 @@ defmodule Discuss.Application do
       # Start the Endpoint (http/https)
       DiscussWeb.Endpoint,
       # Start a worker by calling: Discuss.Worker.start_link(arg)
-      # {Discuss.Worker, arg}
+      # {Discuss.Worker, arg},
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: DiscussWeb.Supervisor]
     Supervisor.start_link(children, opts)
+    Registry.start_link(keys: :unique, name: Rover.Registry)
   end
 
   # Tell Phoenix to update the endpoint configuration
