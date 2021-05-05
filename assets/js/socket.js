@@ -16,26 +16,23 @@ const joinChannel = (topicId) => {
   });
   channel.on(`comments:${topicId}:new`, (event) => {
     console.log("comment: " + JSON.stringify(event.comment));
-    document.querySelector(".collection").innerHTML += renderComments(event.comment);
+    document.querySelector(".collection").innerHTML += renderComment(event.comment);
   });
 
 }
 
+const renderComment = (comment) => {
+  return renderCommentView(comment)
+}
+
 const renderComments = (comments) => {
-  let html;
+  return comments.map(comment => renderCommentView(comment)); 
+}
+const renderCommentView = (comment) => {
   let email = "Anonymous";
-  if (comments instanceof Array) {
-    comments.map((comment) => {
-      if (comment.user && comment.user.email) {
-        email = comment.user.email;
-      }
-      return `<li>${comment.content} - ${email}</li>`;
-    });
-  } else {
-    if (comments.user && comments.user.email) {
-      email = comments.user.email;
-    }
-    return `<li>${comments.content} - ${email}</li>`
+  if (comment.user && comment.user.email)  {
+    email = comment.user.email;
   }
+  return `<li>${comment.content} - ${email}`;
 }
 window.createSocket = joinChannel;
