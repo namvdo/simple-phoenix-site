@@ -9,13 +9,28 @@ defmodule DiscussWeb.CommentsChannel do
     {:ok, %{comments: topic.comments}, assign(socket, :topic, topic)}
   end
 
+  @spec handle_in(
+          any,
+          map,
+          atom
+          | %{
+              :assigns =>
+                atom
+                | %{:topic => %{:__struct__ => atom, optional(any) => any}, optional(any) => any},
+              optional(any) => any
+            }
+        ) ::
+          {:reply, :ok,
+           atom
+           | %{:assigns => atom | %{:topic => map, optional(any) => any}, optional(any) => any}}
   def handle_in(_name, %{"content" => content}, socket) do
     topic = socket.assigns.topic
     changeset = topic
       |> build_assoc(:comments)
       |> Comment.changeset(%{content: content})
     case Repo.insert(changeset) do
-      {:ok, _comment} ->
+      {:ok, comment} ->
+        broadcast!(socket, "comments:#{socket.assigns.topic.id}:new", %{comment: comment})
         {:reply, :ok, socket}
       {:error, reason} -> {:reply, %{errors: reason}, socket}
     end
