@@ -2,6 +2,8 @@ defmodule DiscussWeb.User do
   use DiscussWeb, :model
   use Ecto.Schema
   import Ecto.Changeset
+
+  @derive {Jason.Encoder, only: [:email]}
   schema "users" do
     field :email, :string
     field :token, :string

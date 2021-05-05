@@ -4,7 +4,7 @@ defmodule DiscussWeb.Comment do
     use Ecto.Schema
     import Ecto.Repo
 
-    @derive {Jason.Encoder, only: [:content]}
+    @derive {Jason.Encoder, only: [:content, :user]}
     schema "comments" do
       field :content, :string
       belongs_to(:user, DiscussWeb.User)

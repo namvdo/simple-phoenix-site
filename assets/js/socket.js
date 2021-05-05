@@ -6,7 +6,9 @@ const joinChannel = (topicId) => {
   const channel = socket.channel(chan)
   const commentEvent = "comments:add";
   channel.join()
-    .receive("ok", resp => renderedComments(resp.comments))
+    .receive("ok", resp => {
+      renderComments(resp.comments)
+    })
     .receive("error", resp => { console.log("Unable to join", resp) })
   document.querySelector("#comment").addEventListener("click", function () {
     const content = document.querySelector("textarea").value;
@@ -14,15 +16,26 @@ const joinChannel = (topicId) => {
   });
   channel.on(`comments:${topicId}:new`, (event) => {
     console.log("comment: " + JSON.stringify(event.comment));
-    document.querySelector(".collection").innerHTML += `<li>${event.comment.content}</li>`;
+    document.querySelector(".collection").innerHTML += renderComments(event.comment);
   });
 
 }
 
-function renderedComments(comments) {
-  const renderComments = comments.map((comment) => {
-    document.querySelector(".collection").innerHTML += `<li>${comment.content}</li>`;
-  });
-};
-
+const renderComments = (comments) => {
+  let html;
+  let email = "Anonymous";
+  if (comments instanceof Array) {
+    comments.map((comment) => {
+      if (comment.user && comment.user.email) {
+        email = comment.user.email;
+      }
+      return `<li>${comment.content} - ${email}</li>`;
+    });
+  } else {
+    if (comments.user && comments.user.email) {
+      email = comments.user.email;
+    }
+    return `<li>${comments.content} - ${email}</li>`
+  }
+}
 window.createSocket = joinChannel;
